@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import TodoItem from './TodoItem';
+import { toDoContext } from 'pages/TodoContext';
 
 
 /* 
@@ -14,10 +16,16 @@ const TodoCollection = ({
   onDelete, 
   onToggleDone, 
   onChangeMode }) => {
+
   return (
     <div>
       {todos.map((todo)=>{
-        return <TodoItem key={todo.id} todo={todo}/>
+        return <TodoItem 
+        key={todo.id} 
+        todo={todo}
+        onToggleDone={(id)=> onToggleDone(id)}
+        onChangeMode={({id,isEdit}) => onChangeMode?.({id, isEdit})}
+        onSave={(id, title)=> onSave({id, title})}/>
       })}
    </div>
   )

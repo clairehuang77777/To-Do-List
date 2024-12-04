@@ -5,6 +5,7 @@ import {
   CheckHoverIcon,
 } from 'assets/images';
 import clsx from 'clsx';
+import { useRef } from 'react';
 
 const StyledTaskItem = styled.div`
   min-height: 52px;
@@ -60,7 +61,7 @@ const StyledTaskItem = styled.div`
       display: none;
     }
     .task-item-action {
-      display: none;
+      display: none !important;
     }
   }
 
@@ -103,14 +104,46 @@ const StyledTaskItem = styled.div`
 
 /*TodoItem裡面的props直接沿用TodoCollection的props*/
 const TodoItem = ({todo, onSave, onDelete, onToggleDone, onChangeMode}) => {
+  const inputRef = useRef(null)
+  //製作監聽器,在編輯模式中監聽不同event.key的流程
+  function handleKeyDown(event){
+    if(inputRef.current.value.length>0 && event.key === 'Enter'){
+      console.log('onSave triggered!')
+      onSave({id:todo.id, title:inputRef.current.value})
+    }
+    
+    if(event.key === 'Escape'){
+      onChangeMode({id:todo.id, isEdit:false})
+    }
+  }
   return (
-    <StyledTaskItem className={clsx('',{done:todo.isDone})}>
+    <StyledTaskItem
+      className={clsx('', { done: todo.isDone, edit: todo.isEdit })}
+    >
       <div className="task-item-checked">
-        <span className="icon icon-checked" />
+        <span
+          className="icon icon-checked"
+          onClick={() => onToggleDone(todo.id)}
+        />
       </div>
-      <div className="task-item-body">
-        <span className="task-item-body-text">{todo.title}</span>
-        <input className="task-item-body-input" />
+      <div
+        className="task-item-body"
+        onClick={() => {
+          console.log('double Click triggered!');
+          onChangeMode?.({ id: todo.id, isEdit: true });
+        }}
+      >
+        <span
+          className="task-item-body-text"
+        >
+          {todo.title}
+        </span>
+        <input
+          ref={inputRef}
+          className="task-item-body-input"
+          defaultValue={todo.title}
+          onKeyDown={handleKeyDown}
+        />
       </div>
       <div className="task-item-action ">
         <button className="btn-reset btn-destroy icon"></button>

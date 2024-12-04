@@ -74,20 +74,64 @@ const TodoPage = () => {
     setInputValue('');
   }
 
-  return (
-    <div>
-      TodoPage
-      <Header />
-      <TodoInput
-        inputValue={inputValue}
-        onChange={handleChange}
-        onAddTodo={handleAddToDoClick}
-        onKeyDown={handleOnKeyDown}
-      />
-      <TodoCollection todos={todos} />
-      <Footer />
-    </div>
-  );
-};
+  function handleToggleDone(id){
+    setTodos((prevTodos) => {
+      return prevTodos.map((item) =>
+        item.id === id ? 
+        { ...item, 
+          isDone: !item.isDone } : 
+          item,
+      );
+     })
+  }
+
+  function handleChangeMode({ id, isEdit }){
+    setTodos((prevTodos) => {
+      return prevTodos.map(todo => {
+        if (todo.id === id) {
+          console.log(`Todo with ID ${id} is now editable.`);
+          return { ...todo, isEdit };
+        }
+        return { ...todo, isEdit: false };
+      });
+    });
+  }
+
+  function handleSave({id, title}){
+    setTodos((prevTodos) => {
+      return prevTodos.map(todo => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              title,
+              isEdit: false,
+            };
+          }
+          return {
+            ...todo,
+          };
+        })
+      })}
+
+return (
+  <div>
+    TodoPage
+    <Header />
+    <TodoInput
+      inputValue={inputValue}
+      onChange={handleChange}
+      onAddTodo={handleAddToDoClick}
+      onKeyDown={handleOnKeyDown}
+    />
+    <TodoCollection
+      todos={todos}
+      onToggleDone={handleToggleDone}
+      onChangeMode={handleChangeMode} // 确保正确传入函数
+      onSave={handleSave}
+    />
+    <Footer />
+  </div>
+)
+}
 
 export default TodoPage;
