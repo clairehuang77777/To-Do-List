@@ -1,4 +1,4 @@
-import { Footer, Header, TodoCollection, TodoInput } from 'components';
+import { Footer, Header, TodoCollection, TodoInput } from '../components';
 import { useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars

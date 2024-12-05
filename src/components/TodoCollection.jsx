@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import TodoItem from './TodoItem';
-import { toDoContext } from 'pages/TodoContext';
+import { toDoContext } from '../pages/TodoContext';
 
 
 /* 
