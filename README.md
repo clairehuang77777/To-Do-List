@@ -11,5 +11,10 @@ This project is built with react + vite
 - **Enter/ Exit Edit mode** By double Click to enter 'Edit Mode', click 'Enter' to Save the edited task, click 'ESC' to exit the edit mode.<br>
 ![EditMode](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmhpb3k0eWNweThpbW5tdGFkdzNmbzR4aG43andxZHdtcGF1dG9pMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MejNs3fb3raNycwRMw/giphy.gif)
 
-- **Delete the task** By click the delete button to delete the task and see total task count in footer.<br>
-![DeleteMode](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2h4aGNleXNmemJpYTh5ajJpMXpqbWo5b2d1NHcwYXRlcW9wbDV6aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mU622AzxINmjZ6tdVp/giphy.gif)
+- **Double Click to enter 'Edit Mode'**, click 'Enter' to Save the item, click 'ESC' to exit the edit mode
+
+!(EditMode)[https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmhpb3k0eWNweThpbW5tdGFkdzNmbzR4aG43andxZHdtcGF1dG9pMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MejNs3fb3raNycwRMw/giphy.gif]
+
+- **Delete the task** and show total Task count in footer
+
+!(DeleteMode)[https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2h4aGNleXNmemJpYTh5ajJpMXpqbWo5b2d1NHcwYXRlcW9wbDV6aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mU622AzxINmjZ6tdVp/giphy.gif]
