@@ -142,7 +142,7 @@ return (
       onSave={handleSave}
       onDelete={handleDelete}
     />
-    <Footer />
+    <Footer todos={todos}/>
   </div>
 )
 }
