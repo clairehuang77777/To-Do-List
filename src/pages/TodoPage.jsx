@@ -113,6 +113,18 @@ const TodoPage = () => {
         })
       })}
 
+  function handleDelete(id){
+    setTodos((prevtodos)=> {
+      return prevtodos.filter((item) => {
+        if(item.id !== id){
+          return {
+            ...item
+          }
+        }
+      })
+  })
+}
+
 return (
   <div>
     TodoPage
@@ -128,6 +140,7 @@ return (
       onToggleDone={handleToggleDone}
       onChangeMode={handleChangeMode} // 确保正确传入函数
       onSave={handleSave}
+      onDelete={handleDelete}
     />
     <Footer />
   </div>
