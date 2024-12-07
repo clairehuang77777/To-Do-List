@@ -90,7 +90,7 @@ const TodoInput = ({
           type="text"
           placeholder="新增工作"
           value={inputValue}
-          onChange={onChange}
+          onChange={onChange} //更新inputValue值
           onKeyDown={(e) => {
             if (e.key === 'Enter')
               {onKeyDown()}
