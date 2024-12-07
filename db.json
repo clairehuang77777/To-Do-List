@@ -1,13 +1,8 @@
 {
   "todos": [
     {
-      "title": "Learn react-router",
+      "title": "Learn to create ref",
       "isDone": true,
-      "id": "1"
-    },
-    {
-      "title": "Learn to create custom hooks",
-      "isDone": false,
       "id": "2"
     },
     {
@@ -16,34 +11,14 @@
       "id": "3"
     },
     {
-      "title": "Learn to implement auth",
-      "isDone": false,
-      "id": "4"
-    },
-    {
-      "id": "5",
-      "title": "Study at Mojo",
-      "isDone": true
-    },
-    {
       "id": "9621",
       "title": "study at home",
-      "isDone": false
+      "isDone": true
     },
     {
       "id": "8687",
       "title": "drink oolong tea",
-      "isDone": false
-    },
-    {
-      "id": "b2dd",
-      "title": "use pen markdown",
-      "isDone": false
-    },
-    {
-      "id": "5172",
-      "title": "use red pen to mark",
-      "isDone": false
+      "isDone": true
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { Footer, Header, TodoCollection, TodoInput } from '../components';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getTodos,postTodos } from '../api/todo';
+import { deleteTodos, getTodos,patchTodos,postTodos } from '../api/todo';
 
 // eslint-disable-next-line no-unused-vars
 
@@ -97,12 +97,25 @@ const TodoPage = () => {
     }
   }
 
-  function handleToggleDone(id) {
-    setTodos((prevTodos) => {
-      return prevTodos.map((item) =>
-        item.id === id ? { ...item, isDone: !item.isDone } : item
-      );
-    });
+  async function handleToggleDone(id) {
+    const currentTodo = todos.find((todo)=>todo.id === id)
+    try {
+      const data = await patchTodos(
+        {
+          id,
+          isDone:!currentTodo.isDone
+        }
+      )
+        setTodos((prevTodos) => {
+         return prevTodos.map((item) =>
+           item.id === id ? 
+         { ...item, id:data.id, isDone:data.isDone } : item
+           );
+         });
+    }
+    catch(error){
+      console.error(error)
+    }
   }
 
   function handleChangeMode({ id, isEdit }) {
@@ -117,33 +130,52 @@ const TodoPage = () => {
     });
   }
 
-  function handleSave({ id, title }) {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo.id === id) {
+  async function handleSave({ id, title }) {
+    console.log("saving todo",id, title)
+    try {
+      const data = await patchTodos({
+        id,
+        title
+      });
+      
+      setTodos((prevTodos) => {
+        return prevTodos.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              title,
+              isEdit:false
+            };
+          }
           return {
             ...todo,
-            title,
-            isEdit: false,
           };
-        }
-        return {
-          ...todo,
-        };
+        });
       });
-    });
+    console.log(todos)
+    } 
+    catch(error){
+      console.error(error)
+    }
   }
 
-  function handleDelete(id) {
-    setTodos((prevtodos) => {
-      return prevtodos.filter((item) => {
-        if (item.id !== id) {
-          return {
-            ...item,
-          };
-        }
+  async function handleDelete(id) {
+    //套用 deleteTodos()使用axios打delete request
+    try{
+      const data = await deleteTodos(id)
+    
+      setTodos((prevtodos) => {
+        return prevtodos.filter((item) => {
+          if (item.id !== data.id) {
+            return {
+              ...item,
+            };
+          }
+        });
       });
-    });
+    } catch(error){
+      console.error(error)
+    }
   }
 
   //使用此hook讓react讓外部系統連接
