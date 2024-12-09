@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
@@ -33,10 +34,17 @@ const StyledButton = styled.button`
 
 const Footer = ({todos}) => {
   const totalCount = todos.length
+  const navigate = useNavigate()
+
+  function handleLogOutClick(){
+    localStorage.removeItem('authToken')
+    navigate('/login')
+  }
+
   return (
     <StyledFooter>
       <p>剩餘項目數：{totalCount}</p>
-      <StyledButton>登出</StyledButton>
+      <StyledButton onClick={handleLogOutClick}>登出</StyledButton>
     </StyledFooter>
   );
 };
