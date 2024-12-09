@@ -22,11 +22,16 @@ const StyledInput = styled.input`
   border-radius: 0px;
 `;
 
-const AuthInput = () => {
+const AuthInput = ({label, placeholder, type, value, onChange}) => {
   return (
     <StyledContainer>
-      <StyledLabel>label</StyledLabel>
-      <StyledInput type="text" placeholder="placeholder" />
+      <StyledLabel>{label}</StyledLabel>
+      <StyledInput
+        type={type || "text"} //如果沒有傳入任何props就顯示'text'
+        placeholder={placeholder || ""} //如果沒有傳入任何props就顯示空字串
+        value={value || ""} //如果沒有傳入任何props就顯示''
+        onChange={(event) => onChange(event)}
+      />
     </StyledContainer>
   );
 };
