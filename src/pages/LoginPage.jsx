@@ -6,9 +6,9 @@ import {
 } from "../components/common/auth.styled";
 import { AuthInput } from "../components";
 import { ACLogoIcon } from "../assets/images";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link,useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
+import { login, checkPermission } from "../api/auth";
 import Swal from "sweetalert2";
 
 const LoginPage = () => {
@@ -59,6 +59,25 @@ const LoginPage = () => {
       setPassword('') //把輸入的內容清除
     }
   }
+
+  useEffect(() => {
+    async function CheckTokenIsValid() {
+      const authToken = localStorage.getItem("authToken");
+
+      //如果沒有authToken, 停止檢查, 停留此頁
+      if (!authToken) {
+        return
+      }
+
+      // 如果有authToken打API驗證authToken
+      const result = await checkPermission(authToken);
+      //如果token無效才返回LoginPage
+      if (!result) {
+        navigate("/login");
+      }
+    }
+    CheckTokenIsValid();
+  }, [navigate]);
 
   return (
     <AuthContainer>

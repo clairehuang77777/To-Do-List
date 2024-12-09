@@ -50,3 +50,16 @@ export async function signup({username , password, email}){
     console.error(error)
   }
 }
+
+export async function checkPermission({authToken}){
+  try {
+      const { res } = await axios.get(`${auth_Endpoint}/test-token`,{
+      header : {
+        Authorization : 'bearer' + authToken
+      }
+    });
+    return res.data.authToken
+  } catch(error){
+    console.error('[Check Permission failed]',error)
+  }
+}

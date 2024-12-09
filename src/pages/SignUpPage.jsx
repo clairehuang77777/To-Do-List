@@ -6,9 +6,9 @@ import {
 } from "../components/common/auth.styled";
 import { ACLogoIcon } from "../assets/images";
 import { AuthInput } from "../components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signup } from "../api/auth";
+import { checkPermission, signup } from "../api/auth";
 import Swal from "sweetalert2";
 
 const SignUpPage = () => {
@@ -58,6 +58,24 @@ const SignUpPage = () => {
     setEmail(""); //清空輸入的內容
   }
 
+  useEffect(() => {
+      async function CheckTokenIsValid() {
+        const authToken = localStorage.getItem("authToken") 
+        
+        if(!authToken){
+          navigate("/login")
+          console.log("auth不符合,直接返回loginPage")
+          return
+          //沒有auth情況提前返回，避免執行下方代碼
+        }
+
+        const result = await checkPermission(authToken);
+        if (result){
+          navigate("/todos")
+        }
+      };
+      CheckTokenIsValid()    
+  },[navigate]);
 
   return (
     <AuthContainer>
