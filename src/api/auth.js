@@ -25,3 +25,28 @@ export async function login({username, password}){
     console.error(error)
   }
 }
+
+export async function signup({username , password, email}){
+  try{
+    const { data } = await axios.post(`${auth_Endpoint}/register`, { 
+      username, 
+      password , 
+      email});
+
+    //使用解構函式從data中取出authToken
+    const { authToken } = data 
+
+    if(authToken){
+      return {
+        success:true,
+        ...data
+      }
+    }
+    return {
+      data
+    }
+  }
+  catch(error){
+    console.error(error)
+  }
+}

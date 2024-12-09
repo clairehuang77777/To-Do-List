@@ -7,7 +7,7 @@ import {
 import { AuthInput } from "../components";
 import { ACLogoIcon } from "../assets/images";
 import { useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
 import Swal from "sweetalert2";
 
@@ -15,6 +15,7 @@ const LoginPage = () => {
   //用state管理onchange變化
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
   function handleAccountOnChange(event){
     setUsername(event.target.value);
@@ -43,16 +44,20 @@ const LoginPage = () => {
         icon: "success",
         showConfirmButton: false,
         timer: 1000,
-        position: "center",
-      });
+        position: "center"
+      })
+      navigate("/todo");
+    } else {
+      Swal.fire({
+        title: "登入失敗!",
+        icon: "error",
+        showConfirmButton: false,          
+        timer: 1000,
+         position: "center",
+        });
+      setUsername('') //把輸入的內容清除
+      setPassword('') //把輸入的內容清除
     }
-    Swal.fire({
-      title: "登入失敗!",
-      icon: "error",
-      showConfirmButton: false,
-      timer: 1000,
-      position: "center",
-    });
   }
 
   return (
