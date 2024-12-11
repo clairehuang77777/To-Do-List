@@ -8,14 +8,16 @@ import { ACLogoIcon } from "../assets/images";
 import { AuthInput } from "../components";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { checkPermission, signup } from "../api/auth";
+// import { checkPermission, signup } from "../api/auth";
 import Swal from "sweetalert2";
+import { useAuth } from "../contexts/AuthContext";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] =useState("")
   const navigate = useNavigate()
+  const { isAuthenticated, signup } = useAuth();
 
   function handleAccountOnChange(event) {
     setUsername(event.target.value);
@@ -32,10 +34,9 @@ const SignUpPage = () => {
   }
 
   async function handleSignUpClick(){
-    const { success, authToken } = await signup({ username, password, email });
+    const success = await signup({ username, password, email });
 
     if (success) {
-      localStorage.setItem("authToken", authToken);
       Swal.fire({
         title: "註冊成功!",
         icon: "success",
@@ -43,39 +44,26 @@ const SignUpPage = () => {
         timer: 1000,
         position: "center",
       });
-      navigate("/todo");
       return;
+    } else {
+      Swal.fire({
+        title: "註冊失敗!",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1000,
+        position: "center",
+      });
+      setUsername(""); //清空輸入的內容
+      setPassword(""); //清空輸入的內容
+      setEmail(""); //清空輸入的內容
     }
-    Swal.fire({
-      title: "註冊失敗!",
-      icon: "error",
-      showConfirmButton: false,
-      timer: 1000,
-      position: "center",
-    });
-    setUsername(""); //清空輸入的內容
-    setPassword(""); //清空輸入的內容
-    setEmail(""); //清空輸入的內容
   }
 
   useEffect(() => {
-      async function CheckTokenIsValid() {
-        const authToken = localStorage.getItem("authToken") 
-        
-        if(!authToken){
-          navigate("/login")
-          console.log("auth不符合,直接返回loginPage")
-          return
-          //沒有auth情況提前返回，避免執行下方代碼
-        }
-
-        const result = await checkPermission(authToken);
-        if (result){
-          navigate("/todos")
-        }
-      };
-      CheckTokenIsValid()    
-  },[navigate]);
+      if(isAuthenticated){
+        navigate("/todo")
+      } 
+  },[navigate,isAuthenticated]);
 
   return (
     <AuthContainer>

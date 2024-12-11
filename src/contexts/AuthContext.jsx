@@ -9,7 +9,7 @@ import { signup, login, checkPermission } from "../api/auth"
 const defaultAuthContext = {
   isAuthenticated: false, //判斷使用者是否具有有效憑證, 預設是false, 當取得有效憑證(註冊成功或登入成功)則切換為true 
   currentMember: null, // 當前使用者資料, 預設為null, 成功登入後就會有使用者資料
-  register: null, //註冊方法
+  signup: null, //註冊方法
   login: null, //登入方法
   logout: null //登出方法
 }
@@ -57,56 +57,59 @@ export const AuthProvider = ({children}) => {
 
 
    //只要state狀態更新,接連更新provider所帶的value值
-  return <AuthContext.Provider value={{
-      isAuthenticated,
-      currentMember: payload && {
-        id: payload.sub,
-        name: payload.name,
-      },
-      //因為authContext不會知道註冊表單輸入的值,補上data作為調用選項
-      register: async (data) => {
-        const { success, authToken } = await signup({
-          username: data.username,
-          email: data.email,
-          password: data.password,
-        });
-        const tempPayload = jwtDecode(authToken);
-        //先確認payload是否存在, 存在才代表登入有效, 就存起來
-        if (tempPayload) {
-          setPayload(tempPayload);
-          setIsAuthenticated(true); //註冊成功
-          localStorage.setItem("authToken", authToken);
-        } else {
-          setPayload(null);
-          setIsAuthenticated(false);
-        }
-        return success;
-      },
-      login: async (data) => {
-        const { success, authToken } = await login({
-          username: data.username,
-          password: data.password,
-        });
-        
-        if (authToken) {
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        currentMember: payload && {
+          id: payload.sub,
+          name: payload.name,
+        },
+        //因為authContext不會知道註冊表單輸入的值,補上data作為調用選項
+        signup: async (data) => {
+          const { success, authToken } = await signup({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+          });
           const tempPayload = jwtDecode(authToken);
-          setPayload(tempPayload);
-          setIsAuthenticated(true);
-          localStorage.setItem("authToken", authToken); // 確保正確儲存
-        } else {
-          setPayload(null);
+          //先確認payload是否存在, 存在才代表登入有效, 就存起來
+          if (tempPayload) {
+            setPayload(tempPayload);
+            setIsAuthenticated(true); //註冊成功
+            localStorage.setItem("authToken", authToken);
+          } else {
+            setPayload(null);
+            setIsAuthenticated(false);
+          }
+          return success;
+        },
+        login: async (data) => {
+          const { success, authToken } = await login({
+            username: data.username,
+            password: data.password,
+          });
+
+          if (authToken) {
+            const tempPayload = jwtDecode(authToken);
+            setPayload(tempPayload);
+            setIsAuthenticated(true);
+            localStorage.setItem("authToken", authToken); // 確保正確儲存
+          } else {
+            setPayload(null);
+            setIsAuthenticated(false);
+          }
+          return success;
+        },
+        logout: () => {
+          localStorage.removeItem("authToken");
           setIsAuthenticated(false);
-        }
-        return success;
-      },
-      logout: () => {
-        localStorage.removeItem("authToken");
-        setIsAuthenticated(false);
-        setPayload(null);
-      },
-    }}
-  >
-    {children}
-  </AuthContext.Provider>;
+          setPayload(null);
+        },
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
