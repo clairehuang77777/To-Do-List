@@ -21,9 +21,8 @@ const AuthContext = createContext(defaultAuthContext)
 //輸出context hook 
 export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({children}) => {
-  const [isAuthenticated, setIsAuthenticated]=useState(false)
-  //透過解析token方式取得payload
-  const [payload, setPayload]=useState(null)//這個payload會透過解析JSONwebToken來取得
+  const [isAuthenticated, setIsAuthenticated]=useState(false) //存打api回來的狀態
+  const [payload, setPayload]=useState(null)//這個payload存打api回來的authToken
 
   //把判斷身份是否有效的useEffect搬進來
   const {pathname} = useLocation()
