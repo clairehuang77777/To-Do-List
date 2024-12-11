@@ -8,14 +8,17 @@ import { AuthInput } from "../components";
 import { ACLogoIcon } from "../assets/images";
 import { useState, useEffect } from 'react'
 import { Link,useNavigate } from "react-router-dom";
-import { login, checkPermission } from "../api/auth";
 import Swal from "sweetalert2";
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   //用state管理onchange變化
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
+
+  //掛載AuthContext
+  const { login, isAuthenticated } = useAuth();
 
   function handleAccountOnChange(event){
     setUsername(event.target.value);
@@ -35,10 +38,9 @@ const LoginPage = () => {
       return
     }
     
-    const {success,authToken} = await login({username, password})
-
+    const success = await login({username, password})
+    console.log("AuthContent login Return success!")
     if (success){
-      localStorage.setItem("authToken",authToken)
       Swal.fire({
         title: "登入成功!",
         icon: "success",
@@ -46,7 +48,6 @@ const LoginPage = () => {
         timer: 1000,
         position: "center"
       })
-      navigate("/todo");
     } else {
       Swal.fire({
         title: "登入失敗!",
@@ -61,23 +62,11 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    async function CheckTokenIsValid() {
-      const authToken = localStorage.getItem("authToken");
-
-      //如果沒有authToken, 停止檢查, 停留此頁
-      if (!authToken) {
-        return
-      }
-
-      // 如果有authToken打API驗證authToken
-      const result = await checkPermission(authToken);
-      //如果token無效才返回LoginPage
-      if (!result) {
-        navigate("/login");
-      }
+    if (isAuthenticated) {
+      navigate("/todo")
+      console.log("isAuthenticated change or navigate triggered")
     }
-    CheckTokenIsValid();
-  }, [navigate]);
+  }, [navigate,isAuthenticated]);
 
   return (
     <AuthContainer>

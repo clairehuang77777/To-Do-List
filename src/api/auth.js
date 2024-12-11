@@ -51,15 +51,20 @@ export async function signup({username , password, email}){
   }
 }
 
-export async function checkPermission({authToken}){
-  try {
-      const { res } = await axios.get(`${auth_Endpoint}/test-token`,{
-      header : {
-        Authorization : 'bearer' + authToken
+export async function checkPermission(authToken){
+  if (!authToken) {
+      console.error("No authToken provided for permission check");
+      return null;
       }
-    });
-    return res.data.authToken
+  try {     
+      const { data } = await axios.get(`${auth_Endpoint}/test-token`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+    return data.success;
   } catch(error){
-    console.error('[Check Permission failed]',error)
+    console.error("Error response:", error.response?.data || error.message);
+    return null
   }
 }

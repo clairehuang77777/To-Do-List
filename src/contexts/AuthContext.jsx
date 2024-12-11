@@ -29,28 +29,29 @@ export const AuthProvider = ({children}) => {
   const {pathname} = useLocation()
 
     useEffect(() => {
-      async function CheckTokenIsValid() {
+      const CheckTokenIsValid = async() => {
         const authToken = localStorage.getItem("authToken");
 
         //如果沒有authToken, 停止檢查, 停留此頁
         if (!authToken) {
+          console.log("authToken is not existed!")
           setIsAuthenticated(false)
           setPayload(null)
           return;
         }
 
-        // 如果有authToken打API驗證authToken
-        const result = await checkPermission(authToken);
-        //如果token無效才返回LoginPage
-        if (!result) {
-          setIsAuthenticated(false)
-          setPayload(null)
-        } else {
-          setIsAuthenticated(true)
-          const tempPayload = jwtDecode(authToken)
+        const isValid = await checkPermission(authToken); // 傳入 authToken 字串
+        if (isValid) {
+          setIsAuthenticated(true);
+          const tempPayload = jwtDecode(authToken);
           setPayload(tempPayload);
+        } else {
+          setIsAuthenticated(false);
+          setPayload(null);
+          console.log("Invalid auth token");
         }
       }
+
       CheckTokenIsValid();
     }, [pathname]);
 
@@ -86,11 +87,12 @@ export const AuthProvider = ({children}) => {
           username: data.username,
           password: data.password,
         });
-        const tempPayload = jwtDecode(authToken);
-        if (tempPayload) {
+        
+        if (authToken) {
+          const tempPayload = jwtDecode(authToken);
           setPayload(tempPayload);
-          setIsAuthenticated(true); //登入成功
-          localStorage.setItem("authToken", authToken);
+          setIsAuthenticated(true);
+          localStorage.setItem("authToken", authToken); // 確保正確儲存
         } else {
           setPayload(null);
           setIsAuthenticated(false);

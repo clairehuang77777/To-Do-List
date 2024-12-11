@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { useAuth } from "../contexts/AuthContext";
+import styled from "styled-components";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -32,18 +32,17 @@ const StyledButton = styled.button`
   }
 `;
 
-const Footer = ({todos}) => {
-  const totalCount = todos.length
-  const navigate = useNavigate()
+const Footer = ({ todos }) => {
 
-  function handleLogOutClick(){
-    localStorage.removeItem('authToken')
-    navigate('/login')
+  const { logout } = useAuth();
+
+  function handleLogOutClick() {
+    logout()
   }
 
   return (
     <StyledFooter>
-      <p>剩餘項目數：{totalCount}</p>
+      <p>剩餘項目數：{todos}</p>
       <StyledButton onClick={handleLogOutClick}>登出</StyledButton>
     </StyledFooter>
   );
