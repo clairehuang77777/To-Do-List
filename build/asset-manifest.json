@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.4922d5c4.css",
-    "main.js": "/static/js/main.0f79fa4e.js",
-    "static/media/ac-logo.svg": "/static/media/ac-logo.f4e0f3cb828663732e8d001491c2b394.svg",
-    "index.html": "/index.html",
-    "static/media/check-hover.svg": "/static/media/check-hover.5e00062bcf6cba5dbd8ad1a78066e429.svg",
-    "static/media/check-active.svg": "/static/media/check-active.95ca055ccb9b3ed7ac7e7719b388680e.svg",
-    "static/media/check-circle.svg": "/static/media/check-circle.30720b46020899b2d89e14826f4cc653.svg",
-    "main.4922d5c4.css.map": "/static/css/main.4922d5c4.css.map",
-    "main.0f79fa4e.js.map": "/static/js/main.0f79fa4e.js.map"
+    "main.css": "/To-Do-List/static/css/main.4922d5c4.css",
+    "main.js": "/To-Do-List/static/js/main.fe18d67b.js",
+    "static/media/ac-logo.svg": "/To-Do-List/static/media/ac-logo.f4e0f3cb828663732e8d001491c2b394.svg",
+    "index.html": "/To-Do-List/index.html",
+    "static/media/check-hover.svg": "/To-Do-List/static/media/check-hover.5e00062bcf6cba5dbd8ad1a78066e429.svg",
+    "static/media/check-active.svg": "/To-Do-List/static/media/check-active.95ca055ccb9b3ed7ac7e7719b388680e.svg",
+    "static/media/check-circle.svg": "/To-Do-List/static/media/check-circle.30720b46020899b2d89e14826f4cc653.svg",
+    "main.4922d5c4.css.map": "/To-Do-List/static/css/main.4922d5c4.css.map",
+    "main.fe18d67b.js.map": "/To-Do-List/static/js/main.fe18d67b.js.map"
   },
   "entrypoints": [
     "static/css/main.4922d5c4.css",
-    "static/js/main.0f79fa4e.js"
+    "static/js/main.fe18d67b.js"
   ]
 }
